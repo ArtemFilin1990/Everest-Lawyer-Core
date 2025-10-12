@@ -120,6 +120,22 @@ app.post("/legal", async (req, res) => {
     res.status(500).json({ error: errorMessage });
   }
 });
+/**
+ * Additional GET endpoints for debug and fallback. These handle requests to the
+ * root URL and to GET /legal. The root returns a simple status message, and
+ * GET /legal responds with a 405 to indicate that only POST requests are
+ * supported on that route.
+ */
+app.get("/", (req, res) => {
+  res.status(200).send("EvaLegalAI Core server is running");
+});
+
+app.get("/legal", (req, res) => {
+  res.status(405).send(
+    "Method Not Allowed. This endpoint only accepts POST requests with a JSON body containing chatId, dealId, fileUrl and task."
+  );
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
