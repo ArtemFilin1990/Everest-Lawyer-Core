@@ -1,18 +1,15 @@
 FROM node:20-alpine
 
-# Create app directory
 WORKDIR /app
 
-# Install dependencies
-COPY package.json ./
-COPY package-lock.json* ./
-# If package-lock.json not present, npm ci will fail gracefully and fallback to install
-RUN if [ -f package-lock.json ]; then npm ci --only=production; else npm install --only=production; fi
+COPY package*.json ./
 
-# Copy rest of the source
+RUN npm ci --omit=dev
+
 COPY . .
+
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
-# Start the server
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
