@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: eva-legal-core
+    env: docker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: BITRIX_URL
+        sync: false
+      - key: ALLOWED_CHAT_IDS
+        value: ""
